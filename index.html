@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accio Work ソーシングスキルガイド</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --primary-light: #EFF6FF;
+      --primary-dark: #1D4ED8;
+      --accent: #8B5CF6;
+      --accent-light: #F5F3FF;
+      --bg: #FAFBFC;
+      --surface: #FFFFFF;
+      --text-primary: #1E293B;
+      --text-secondary: #64748B;
+      --text-tertiary: #94A3B8;
+      --border: #E2E8F0;
+      --border-light: #F1F5F9;
+      --success: #10B981;
+      --success-light: #ECFDF5;
+      --code-bg: #1E293B;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,0.10);
+      --radius: 14px;
+      --radius-lg: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Pretendard Variable', 'Hiragino Kaku Gothic ProN', 'Meiryo', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+    .back-btn {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .back-btn:hover { background: var(--border-light); color: var(--text-primary); }
+    .back-btn.visible { display: flex; }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .view {
+      display: none;
+      padding: 100px 0 60px;
+      animation: viewIn 0.35s ease;
+    }
+    .view.active { display: block; }
+    @keyframes viewIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .home-hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .home-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+    .home-hero h1 {
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.35;
+      margin-bottom: 12px;
+      letter-spacing: -0.4px;
+    }
+    .home-hero h1 .gradient {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .home-hero p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .install-notice {
+      text-align: center;
+      padding: 24px 24px;
+      background: var(--surface);
+      border: 1px solid #FED7AA;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: 0 0 0 1px rgba(249,115,22,0.06), 0 4px 20px rgba(249,115,22,0.12);
+    }
+    .install-notice .lead {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.6;
+      margin-bottom: 4px;
+    }
+    .install-notice p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .install-notice a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .install-notice a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+    .install-notice a svg {
+      flex-shrink: 0;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .choice-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.25s, border-color 0.2s;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .choice-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .choice-card.blue::before { background: var(--primary); }
+    .choice-card.purple::before { background: var(--accent); }
+    .choice-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: transparent;
+    }
+    .choice-card:hover::before { opacity: 1; }
+    .choice-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .choice-icon.blue { background: var(--primary-light); }
+    .choice-icon.purple { background: var(--accent-light); }
+    .choice-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .choice-card .subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .choice-card .arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: gap 0.2s;
+    }
+    .choice-card.blue .arrow { color: var(--primary); }
+    .choice-card.purple .arrow { color: var(--accent); }
+    .choice-card:hover .arrow { gap: 8px; }
+
+    .choice-card.recommended {
+      border-color: rgba(59, 130, 246, 0.45);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.08), 0 4px 20px rgba(59, 130, 246, 0.10);
+    }
+    .choice-card.recommended::after {
+      content: 'おすすめ';
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      line-height: 1;
+    }
+    .choice-card.recommended:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.12), 0 12px 36px rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    .sub-header {
+      margin-bottom: 36px;
+    }
+    .sub-header .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .sub-header .label.blue { color: var(--primary); }
+    .sub-header .label.purple { color: var(--accent); }
+    .sub-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .sub-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .step-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+    .step-card-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-card-num.blue { background: var(--primary); }
+    .step-card-num.purple { background: var(--accent); }
+    .step-card-body h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .step-card-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .step-card-body .placeholder-tag {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 6px;
+      background: var(--border-light);
+      color: var(--text-tertiary);
+    }
+
+    .guide-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .guide-section-header {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .guide-section-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+    .guide-section-title h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+    .guide-section-title p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .guide-img-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .guide-img-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+    .guide-img-grid.three-col { grid-template-columns: repeat(3, 1fr); }
+    .guide-img {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .guide-img:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+    .guide-img img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .guide-img-caption {
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      background: var(--surface);
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .download-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border: 1.5px dashed var(--primary);
+      border-radius: 12px;
+      background: var(--primary-light);
+    }
+    a.download-card {
+      text-decoration: none;
+      color: inherit;
+    }
+    .download-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .download-card-body h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .download-card-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    .download-card-body .file-hint {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 640px) {
+      .guide-img-grid.two-col,
+      .guide-img-grid.three-col { grid-template-columns: 1fr; }
+      .guide-section { padding: 20px; }
+      .download-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+
+    .prompt-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .prompt-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: var(--border-light);
+      border-bottom: 1px solid var(--border);
+    }
+    .prompt-toolbar .label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      font-family: inherit;
+    }
+    .copy-btn:hover { background: var(--primary-dark); }
+    .copy-btn:active { transform: scale(0.97); }
+    .copy-btn.copied {
+      background: var(--success);
+    }
+    .prompt-content {
+      padding: 24px;
+      min-height: 200px;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      font-family: 'Pretendard Variable', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+    }
+    .prompt-content .placeholder-block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 160px;
+      color: var(--text-tertiary);
+      font-size: 14px;
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      margin: 4px 0;
+    }
+
+    .prompt-guide {
+      margin-bottom: 20px;
+    }
+    .prompt-guide h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+    .prompt-guide > p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .prompt-guide .guide-img {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(9, 15, 27, 0.88);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .lightbox.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .lightbox-close:hover { background: rgba(255, 255, 255, 0.22); }
+    .lightbox-close:active { transform: scale(0.94); }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .lightbox-nav:hover { background: rgba(255, 255, 255, 0.22); }
+    .lightbox-nav:active { transform: translateY(-50%) scale(0.94); }
+    .lightbox-nav.prev { left: 20px; }
+    .lightbox-nav.next { right: 20px; }
+    .lightbox-content {
+      max-width: calc(100vw - 160px);
+      max-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: lightboxZoom 0.25s ease;
+    }
+    @keyframes lightboxZoom {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: calc(100vh - 200px);
+      border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      background: var(--surface);
+    }
+    .lightbox-caption {
+      margin-top: 16px;
+      padding: 0 20px;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.6;
+      text-align: center;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      max-width: 760px;
+    }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+    @media (max-width: 640px) {
+      .lightbox-content {
+        max-width: calc(100vw - 48px);
+        max-height: calc(100vh - 120px);
+      }
+      .lightbox-content img { max-height: calc(100vh - 180px); }
+      .lightbox-nav {
+        width: 40px;
+        height: 40px;
+      }
+      .lightbox-nav.prev { left: 10px; }
+      .lightbox-nav.next { right: 10px; }
+      .lightbox-close { top: 12px; right: 12px; }
+    }
+
+    .callout {
+      display: flex;
+      gap: 10px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      margin-top: 16px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .callout.tip { background: var(--success-light); color: #065F46; }
+    .callout-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+    @media (max-width: 540px) {
+      .choice-grid { grid-template-columns: 1fr; }
+      .home-hero h1 { font-size: 24px; }
+      .step-card { padding: 18px 20px; gap: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand" onclick="showView('home');return false;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      Skillガイド
+    </a>
+    <button class="back-btn" id="backBtn" onclick="showView('home')">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      トップへ
+    </button>
+  </div>
+</nav>
+
+<!-- HOME VIEW -->
+<div class="view active" id="view-home">
+  <div class="container">
+    <div class="home-hero">
+      <div class="home-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        AI Agent Skill
+      </div>
+      <h1>Accio Workを活用した<br><span class="gradient">ワンクリック工場検索</span></h1>
+      <p>わずか5分で、Alibaba.comの信頼できる工場リストレポートを作成。</p>
+    </div>
+
+    <div class="install-notice">
+      <p class="lead">はじめに、Accio Workをインストールして起動してください。</p>
+      <a href="https://www.accio.com/work?accio_page_id=g0dtirlspsecas2q19f3b8c10b121eb3a063131739&spm=a2700.accio_index" target="_blank" rel="noopener noreferrer">
+        Accio Workをダウンロード
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+
+    <div class="choice-grid">
+      <div class="choice-card blue recommended" onclick="showView('register')">
+        <div class="choice-icon blue">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <h3>スキルを登録</h3>
+        <p class="subtitle">一度登録すれば、プロンプト入力なしで<br>工場レポートを自動生成</p>
+        <div class="arrow">
+          はじめる
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+      <div class="choice-card purple" onclick="showView('prompt')">
+        <div class="choice-icon purple">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3>プロンプトで使う</h3>
+        <p class="subtitle">スキルの登録が難しい場合は<br>コピペで使えるプロンプトをご用意</p>
+        <div class="arrow">
+          コピーする
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER VIEW -->
+<div class="view" id="view-register">
+  <div class="container">
+    <div class="sub-header">
+      <div class="label blue">
+        SKILL REGISTRATION
+      </div>
+      <h2>スキルを登録</h2>
+      <p>以下の手順でスキルを登録すると、次回からプロンプトを入力せずに工場レポートを生成できます。</p>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-header">
+        <div class="guide-section-num">1</div>
+        <div class="guide-section-title">
+          <h3>スキルファイルのダウンロード</h3>
+          <p>以下のファイルをダウンロードし、保存先のフォルダを確認してください。</p>
+        </div>
+      </div>
+      <a href="factory-sourcer.zip" download class="download-card">
+        <div class="download-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="download-card-body">
+          <h4>工場調査レポートスキル.zip</h4>
+        </div>
+      </a>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-header">
+        <div class="guide-section-num">2</div>
+        <div class="guide-section-title">
+          <h3>スキルの登録</h3>
+          <p>ダウンロードしたスキルファイルをAccioに登録します。</p>
+        </div>
+      </div>
+      <div class="guide-img-grid two-col">
+        <div class="guide-img">
+          <img src="image1.png" alt="プラグインメニューをクリック">
+          <div class="guide-img-caption">左側のタブで「<strong>プラグイン</strong>」をクリックします。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image2.png" alt="スキルタブをクリック">
+          <div class="guide-img-caption">上部のタブで「<strong>スキル</strong>」をクリックします。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image3.png" alt="アップロードとzipファイルの選択">
+          <div class="guide-img-caption">右上の「<strong>アップロード</strong>」ボタンを押し、「<strong>zipファイルを選択</strong>」をクリックします。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image4.png" alt="zipファイルを選択して開く">
+          <div class="guide-img-caption">ダウンロードしたzipファイルを選択し、「<strong>開く</strong>」を押してください。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image5.png" alt="工場調査レポートスキルを有効化">
+          <div class="guide-img-caption">スキル一覧の一番下に「<strong>工場調査レポート</strong>」が表示されたら、スイッチをオン（緑色）にしてください。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-header">
+        <div class="guide-section-num">3</div>
+        <div class="guide-section-title">
+          <h3>スキルの使用</h3>
+          <p>左タブの「プラグイン」＞「Accio 購買ツールキット」のチャットアイコンをクリックすると、専任エージェントとの会話が始まります。</p>
+        </div>
+      </div>
+      <div class="guide-img-grid three-col">
+        <div class="guide-img">
+          <img src="image6.png" alt="Accio 購買ツールキットのチャットアイコンをクリック">
+          <div class="guide-img-caption"><strong>Accio 購買ツールキット</strong>のチャットアイコンをクリックしてください。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image7.png" alt="工場調査レポートを選択">
+          <div class="guide-img-caption">チャット欄に「<strong>/</strong>」を入力し、「<strong>工場調査レポート</strong>」を選択してください。</div>
+        </div>
+        <div class="guide-img">
+          <img src="image8.png" alt="ソーシング要件の入力">
+          <div class="guide-img-caption">スキルと一緒に<strong>「ソーシング」</strong>と送信した後、ガイドに沿って<strong>要件</strong>を入力し、レポートを受け取ってください。</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PROMPT VIEW -->
+<div class="view" id="view-prompt">
+  <div class="container">
+    <div class="sub-header">
+      <div class="label purple">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        READY-TO-USE PROMPT
+      </div>
+      <h2>プロンプトを取得</h2>
+      <p>①下記のプロンプトをコピーし、②Accio 購買ツールキットのチャットに貼り付け、③[ソーシング要件]の内容を記入して、そのまま送信してください！</p>
+    </div>
+
+    <div class="guide-section prompt-guide">
+      <h3>コピーしたプロンプトはこちらに入力👀</h3>
+      <p>左タブ「プラグイン」→「Accio 購買ツールキット」のチャットアイコンをクリックすると、専任エージェントとの会話が始まります。</p>
+      <div class="guide-img">
+        <img src="accio-sourcing-toolkit-guide.png" alt="左タブ「プラグイン」→「Accio 購買ツールキット」のチャットアイコン">
+      </div>
+    </div>
+
+    <div class="prompt-wrapper">
+      <div class="prompt-toolbar">
+        <div class="label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          Prompt
+        </div>
+        <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="copyLabel">すべてコピー</span>
+        </button>
+      </div>
+      <div class="prompt-content" id="promptContent">この製品を製造・ソーシングできる専門的な製造工場を探しています。以下のソーシング要件とレポート作成指示に従って、サプライヤー推薦レポートを作成してください。
+
+[ソーシング要件]
+品目:
+必須条件:
+希望条件:
+
+[レポート作成条件]
+作業の効率化: 不要な序論・結論の長文は省略し、コアデータを中心に回答してください。クレジット最大使用量50を超えないよう、作業を効率的に管理してください。
+出力形式: このチャットには要約と表形式で出力し、完全なレポートはワーキングディレクトリにファイルとして作成してください。
+
+[レポートに含める項目]
+1. サプライヤー推薦リスト
+推薦業者10社。ただし、必須条件を満たす業者が10社未満の場合は、条件を満たす業者のみ推薦してください。
+以下の項目を含めてリストを表形式で作成してください;
+推薦順位 / 会社名 / プロフィールリンク / ソーシング品目(または類似品目)の商品ページリンク / 推薦理由 (核心的な強みを1行で要約) / 業者評価および再購入率 / Verifiedの有無 / 業歴
+
+2. 製造工場と判断した根拠
+推薦リストのすべての業者について、商社ではなく「実際の製造工場」と判断した根拠を詳細に提示してください。(保有設備名、主要認証名など)
+確認データ: 従業員数、工場規模、保有設備、保有認証、主要取引実績
+注意: プラットフォーム認証(Verified)マークおよび企業形態(Business Type)データを優先的に確認し、信頼できる情報のみ収集すること。
+
+3. 専門性検証のための必須質問リスト
+この品目の製造専門性および生産能力を確認するために、サプライヤーに送る必須質問5つを[日本語 - 英語]のペアで作成してください。
+
+4. まとめと実行提案
+結論を一目でわかるように要約し、すぐに実行できるアクション3つを箇条書きで提示してください。</div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </span>
+      <span><strong>ヒント:</strong> コピーしたプロンプトをAgentのチャットに貼り付けるだけで、すぐにご利用いただけます。</span>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOnBackdrop(event)">
+  <button class="lightbox-close" id="lightboxClose" onclick="closeLightbox(event)" aria-label="閉じる">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button class="lightbox-nav prev" id="lightboxPrev" onclick="prevLightbox(event)" aria-label="前へ">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="lightbox-nav next" id="lightboxNext" onclick="nextLightbox(event)" aria-label="次へ">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <div class="lightbox-content" id="lightboxContent" onclick="event.stopPropagation()">
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<script>
+  function showView(name) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name).classList.add('active');
+    const backBtn = document.getElementById('backBtn');
+    if (name === 'home') {
+      backBtn.classList.remove('visible');
+    } else {
+      backBtn.classList.add('visible');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function copyPrompt() {
+    const content = document.getElementById('promptContent').innerText;
+    navigator.clipboard.writeText(content).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const label = document.getElementById('copyLabel');
+      btn.classList.add('copied');
+      label.textContent = 'コピーしました！';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        label.textContent = 'すべてコピー';
+      }, 1500);
+    });
+  }
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+  let galleryItems = [];
+  let currentIndex = 0;
+
+  function buildGallery() {
+    galleryItems = Array.from(document.querySelectorAll('.guide-img')).map(card => {
+      const img = card.querySelector('img');
+      const caption = card.querySelector('.guide-img-caption');
+      return {
+        src: img ? img.src : '',
+        alt: img ? img.alt : '',
+        caption: caption ? caption.innerHTML : ''
+      };
+    });
+  }
+
+  function openLightbox(index) {
+    if (galleryItems.length === 0) return;
+    currentIndex = index;
+    renderLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(event) {
+    if (event) event.stopPropagation();
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeLightboxOnBackdrop(event) {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
+  }
+
+  function renderLightbox() {
+    const item = galleryItems[currentIndex];
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.alt;
+    lightboxCaption.innerHTML = item.caption;
+    lightboxCounter.textContent = (currentIndex + 1) + ' / ' + galleryItems.length;
+  }
+
+  function nextLightbox(event) {
+    if (event) event.stopPropagation();
+    currentIndex = (currentIndex + 1) % galleryItems.length;
+    renderLightbox();
+  }
+
+  function prevLightbox(event) {
+    if (event) event.stopPropagation();
+    currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
+    renderLightbox();
+  }
+
+  document.querySelectorAll('.guide-img').forEach((card, index) => {
+    card.addEventListener('click', () => openLightbox(index));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'ArrowRight') nextLightbox();
+    else if (e.key === 'ArrowLeft') prevLightbox();
+    else if (e.key === 'Escape') closeLightbox();
+  });
+
+  buildGallery();
+</script>
+
+</body>
+</html>
